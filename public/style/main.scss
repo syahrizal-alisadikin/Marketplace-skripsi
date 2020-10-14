@@ -1,0 +1,23 @@
+// Import Bootstrap 4 Library
+@import "../vendor/bootstrap/scss/bootstrap.scss";
+
+@import "global";
+@import "fonts";
+@import "navbar";
+
+@import "pages/home";
+@import "pages/categories";
+@import "pages/details";
+@import "pages/cart";
+@import "pages/auth";
+@import "pages/success";
+@import "pages/dashboard";
+
+@import "components/breadcrumbs";
+@import "components/categories";
+@import "components/products";
+@import "components/card";
+@import "components/card_list";
+@import "components/card_dashboard";
+
+@import "transitions/slide-fade";
