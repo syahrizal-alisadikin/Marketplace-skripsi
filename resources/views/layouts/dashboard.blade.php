@@ -27,27 +27,27 @@
           <div class="list-group list-group-flush">
             <a
               href="{{route('dashboard')}}"
-              class="list-group-item list-group-item-action"
+              class="list-group-item list-group-item-action {{ request()->is('Dashboard') ? 'active' : ''}}"
               >Dashboard</a
             >
             <a
               href="{{route('dashboard-product')}}"
-              class="list-group-item list-group-item-action"
+              class="list-group-item list-group-item-action {{ request()->is('Dashboard-Product') ? 'active' : ''}}"
               >My Products</a
             >
             <a
-              href="/dashboard-transactions.html"
-              class="list-group-item list-group-item-action"
+              href="{{route('dashboard-transaction')}}"
+              class="list-group-item list-group-item-action {{ request()->is('Dashboard-Transaction') ? 'active' : ''}}"
               >Transactions</a
             >
             <a
-              href="/dashboard-settings.html"
-              class="list-group-item list-group-item-action"
+              href="{{route('dashboard-setting-store')}}"
+              class="list-group-item list-group-item-action {{ request()->is('Dashboard-Setting/store') ? 'active' : ''}}"
               >Store Settings</a
             >
             <a
-              href="/dashboard-account.html"
-              class="list-group-item list-group-item-action"
+              href="{{route('dashboard-setting-account')}}"
+              class="list-group-item list-group-item-action {{ request()->is('Dashboard-Setting/account') ? 'active' : ''}}"
               >My Account</a
             >
             <a
