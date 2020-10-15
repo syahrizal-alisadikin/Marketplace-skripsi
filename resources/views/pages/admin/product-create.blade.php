@@ -16,7 +16,9 @@
       <div class="dashboard-content">
         <div class="row">
           <div class="col-12">
-            <form action="">
+          <form action="{{route('product-store')}}" method="POST" enctype="multipart/form-data">
+              @csrf
+            <input type="hidden" name="fk_user_id" value="{{Auth::user()->id}}">
               <div class="card">
                 <div class="card-body">
                   <div class="row">
@@ -25,12 +27,18 @@
                         <label for="name">Product Name</label>
                         <input
                           type="text"
-                          class="form-control"
+                          class="form-control @error('name') is-invalid @enderror"
                           id="name"
                           aria-describedby="name"
-                          name="storeName"
-                          value="Papel La Casa"
+                          name="name"
+                          value="{{old('name')}}"
+                          placeholder="Masukan Nama Poduct"
                         />
+                          @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                          @enderror
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -38,38 +46,61 @@
                         <label for="price">Price</label>
                         <input
                           type="number"
-                          class="form-control"
+                          class="form-control @error('price') is-invalid @enderror"
                           id="price"
                           aria-describedby="price"
                           name="price"
-                          value="200"
+                          value="{{old('price')}}"
+                          placeholder="Masukan Harga Product"
                         />
+                         @error('price')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                          @enderror
+                      </div>
+                    </div>
+                      <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="fk_categories_id">Category</label>
+                      <select name="fk_categories_id" id="fk_categories_id" class="form-control">
+                        @foreach ($categories as $category)
+                      <option value="{{$category->id}}">{{$category->name}}</option>
+                            
+                        @endforeach
+                      </select>
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <label for="description">Description</label>
                         <textarea
-                          name="descrioption"
+                          name="description"
                           id="description"
-                          cols="30"
-                          rows="4"
-                          class="form-control"
+                          cols="50"
+                          rows="10"
+                          class="form-control @error('description') is-invalid @enderror"
+                          placeholder="Masukan Description"
                         >
-The Nike Air Max 720 SE goes bigger than ever before with Nike's tallest Air unit yet for unimaginable, all-day comfort. There's super breathable fabrics on the upper, while colours add a modern edge. Bring the past into the future with the Nike Air Max 2090, a bold look inspired by the DNA of the iconic Air Max 90. Brand-new Nike Air cushioning
+                        {{old('description')}}
                         </textarea>
+                            @error('description')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                          @enderror
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="thumbnails">Thumbnails</label>
+                        <label for="photos">Thumbnails</label>
                         <input
                           type="file"
                           multiple
                           class="form-control pt-1"
-                          id="thumbnails"
-                          aria-describedby="thumbnails"
-                          name="thumbnails"
+                          id="photos"
+                          aria-describedby="photos"
+                          name="photos"
                         />
                         <small class="text-muted">
                           Kamu dapat memilih lebih dari satu file

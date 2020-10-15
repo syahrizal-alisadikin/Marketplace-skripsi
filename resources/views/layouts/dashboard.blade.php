@@ -32,7 +32,7 @@
             >
             <a
               href="{{route('dashboard-product')}}"
-              class="list-group-item list-group-item-action {{ request()->is('Dashboard-Product') ? 'active' : ''}}"
+              class="list-group-item list-group-item-action {{ request()->is('Dashboard-Product*') ? 'active' : ''}}"
               >My Products</a
             >
             <a
@@ -51,10 +51,14 @@
               >My Account</a
             >
             <a
-              href="/dashboard-account.html"
+              href="{{route('logout')}}"
+              onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
               class="list-group-item list-group-item-action"
               >Sign Out</a
             >
+            <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none">
+                    @csrf    
+            </form>
           </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -116,8 +120,17 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link d-inline-block mt-2" href="#">
-                    <img src="/images/icon-cart-empty.svg" alt="" />
+                   <a class="nav-link d-inline-block mt-2" href="{{route('cart')}}">
+                    @php
+                        $carts = App\Models\Cart::where('fk_user_id',Auth::user()->id)->count();
+                    @endphp
+                    @if ($carts > 0 )
+                    <img src="/images/icon-cart-filled.svg" alt="">
+                    <div class="cart-badge">{{$carts}}</div>
+                    @else
+                    <img src="/images/icon-cart-epty.svg" alt="">
+                    @endif
+                  
                   </a>
                 </li>
               </ul>
