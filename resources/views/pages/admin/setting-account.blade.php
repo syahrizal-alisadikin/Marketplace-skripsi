@@ -79,20 +79,23 @@
                        <div class="col-md-4">
                         <div class="form-group">
                           <label for="province">Province</label>
-                          <option value="{{$Provinsi->id}}">{{$Provinsi->name}}</option>
-                          <select name="fk_provinces_id"  id="fk_provinces_id" v-if="provinces" v-model="provinces_id" class="form-control">
-                          <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                          <select name="fk_provinces_id"  id="fk_provinces_id"  class="form-control">
+                            <option value="{{$Provinsi->id}}">{{$Provinsi->name}}</option>
+                            @foreach ($prov as $pro)
+                              <option value="{{$pro->id}}">{{$pro->name}}</option>
+                            @endforeach
                           </select>
-                          <select v-else class="form-control"></select>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="fk_regencies_id">City</label>
-                        <select name="fk_regencies_id"  id="fk_regencies_id" v-if="regencies" v-model="regencies_id" class="form-control">
-                          <option v-for="regencie in regencies" :value="regencie.id">@{{ regencie.name }}</option>
+                        <select name="fk_regencies_id"  id="fk_regencies_id"  class="form-control">
+                        <option value="{{$kota->id}}">{{$kota->name}}</option>
+                          @foreach ($regency as $ko)
+                          <option value="{{$ko->id}}">{{$ko->name}}</option>
+                          @endforeach
                           </select>
-                          <select v-else class="form-control"></select>
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -156,52 +159,14 @@
 @push('addon-script')
     <script src="/vendor/vue/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
      $(document).ready(function() {
         // console.log('berhasil');
-          $('.fk_provinces_id').select2();
+          $('#fk_provinces_id,#fk_regencies_id').select2({
+            theme:'bootstrap4',width:'style'
+          });
       });
       </script>
-    <script>
-     
-
-      var locations = new Vue({
-        el: "#locations",
-        mounted() {
-          AOS.init();
-          this.getProvincesData()
-        },
-        data: {
-          provinces:null,
-          regencies:null,
-          provinces_id:null,
-          regencies_id:null,
-        
-        },
-        methods: {
-          getProvincesData(){
-            var self = this;
-            axios.get('{{ route('api-provinces') }}')
-                .then(function(response){
-                  self.provinces = response.data;
-                });
-            },
-
-            getRegenciesData(){
-                var self = this;
-                axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
-                    .then(function(response){
-                      self.regencies = response.data;
-              });
-            }
-        },
-        watch: {
-          provinces_id: function(val, oldVal){
-            this.regencies_id=null;
-            this.getRegenciesData();
-          }
-        },
-      });
-    </script>
+  
 @endpush
