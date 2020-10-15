@@ -38,14 +38,18 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::GET('/Dashboard-Product', 'Admin\ProductController@index')->name('dashboard-product');
     Route::GET('/Dashboard-Product/create', 'Admin\ProductController@create')->name('product-create');
-    Route::GET('/Dashboard-Product/detail/{id}', 'Admin\ProductController@detail')->name('product-detail');
     Route::POST('/Dashboard-Product/store', 'Admin\ProductController@store')->name('product-store');
+    Route::GET('/Dashboard-Product/detail/{id}', 'Admin\ProductController@detail')->name('product-detail');
+    Route::PUT('/Dashboard-Product/product/{id}', 'Admin\ProductController@update')->name('product-update');
+    Route::POST('/Dashboard-Product/product-upload-gallery', 'Admin\ProductController@uploadGallery')->name('product-upload-gallery');
+    Route::GET('/Dashboard-Product/product-galleries/{id}', 'Admin\ProductController@deleteGallery')->name('product-galery-delete');
 
     Route::GET('/Dashboard-Transaction', 'Admin\TransactionController@index')->name('dashboard-transaction');
     Route::GET('/Dashboard-Transaction/{id}', 'Admin\TransactionController@detail')->name('dashboard-transaction-detail');
 
     Route::GET('/Dashboard-Setting/store', 'Admin\SettingController@store')->name('dashboard-setting-store');
     Route::GET('/Dashboard-Setting/account', 'Admin\SettingController@account')->name('dashboard-setting-account');
+    Route::POST('/Dashboard-Setting/update/{redirect}', 'Admin\SettingController@update')->name('dashboard-setting-update');
 });
 
 Route::prefix('Superadmin')

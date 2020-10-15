@@ -10,6 +10,7 @@ use App\Models\ProductGallery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\Superadmin\ProductRequest;
+use Illuminate\Container\RewindableGenerator;
 
 class ProductController extends Controller
 {
@@ -26,10 +27,7 @@ class ProductController extends Controller
         return view('pages.admin.product-create', compact('categories'));
     }
 
-    public function detail()
-    {
-        return view('pages.admin.product-detail');
-    }
+
 
     public function store(ProductRequest $request)
     {
@@ -45,5 +43,44 @@ class ProductController extends Controller
         ProductGallery::create($gallery);
 
         return redirect()->route('dashboard-product');
+    }
+
+    public function detail($id)
+    {
+        $product = Product::with('galleries', 'category')->findOrFail($id);
+        // dd($product);
+        $categories = Category::all();
+        return view('pages.admin.product-detail', compact('product', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+        // dd($data);
+        $data['slug'] = Str::slug($request->name);
+
+        $item = Product::findOrFail($id);
+        $item->update($data);
+
+        return redirect()->route('dashboard-product');
+    }
+
+    public function uploadGallery(Request $request)
+    {
+        $data = $request->all();
+        $data['photos'] = $request->file('photos')->store('assets/product', 'public');
+
+        // dd($data);
+        ProductGallery::create($data);
+
+        return redirect()->route('product-detail', $request->fk_product_id);
+    }
+
+    public function deleteGallery($id)
+    {
+        $data = ProductGallery::findOrFail($id);
+        $data->delete();
+
+        return redirect()->route('product-detail', $data->fk_product_id);
     }
 }

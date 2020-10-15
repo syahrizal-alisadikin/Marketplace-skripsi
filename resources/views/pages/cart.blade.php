@@ -140,7 +140,7 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="zip_code">Postal Code</label>
+                  <label for="zip_code">Zip Code</label>
                   <input
                     type="text"
                     class="form-control"

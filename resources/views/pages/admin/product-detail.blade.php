@@ -3,81 +3,8 @@
 
 @section('content')
  <!-- Page Content -->
-        <div id="page-content-wrapper">
-          <nav
-            class="navbar navbar-store navbar-expand-lg navbar-light fixed-top"
-            data-aos="fade-down"
-          >
-            <button
-              class="btn btn-secondary d-md-none mr-auto mr-2"
-              id="menu-toggle"
-            >
-              &laquo; Menu
-            </button>
-
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ml-auto d-none d-lg-flex">
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <img
-                      src="/images/icon-user.png"
-                      alt=""
-                      class="rounded-circle mr-2 profile-picture"
-                    />
-                    Hi, Angga
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/index.html"
-                      >Back to Store</a
-                    >
-                    <a class="dropdown-item" href="/dashboard-account.html"
-                      >Settings</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/">Logout</a>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-inline-block mt-2" href="#">
-                    <img src="/images/icon-cart-empty.svg" alt="" />
-                  </a>
-                </li>
-              </ul>
-              <!-- Mobile Menu -->
-              <ul class="navbar-nav d-block d-lg-none mt-3">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    Hi, Angga
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-inline-block" href="#">
-                    Cart
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
+        
+         
 
           <div
             class="section-content section-dashboard-home"
@@ -85,7 +12,7 @@
           >
             <div class="container-fluid">
               <div class="dashboard-heading">
-                <h2 class="dashboard-title">Shirup Marzan</h2>
+                <h2 class="dashboard-title">{{$product->name}}</h2>
                 <p class="dashboard-subtitle">
                   Product Details
                 </p>
@@ -93,7 +20,9 @@
               <div class="dashboard-content">
                 <div class="row">
                   <div class="col-12">
-                    <form action="">
+                    <form action="{{route('product-update',$product->id)}}" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      @method("PUT")
                       <div class="card">
                         <div class="card-body">
                           <div class="row">
@@ -105,8 +34,8 @@
                                   class="form-control"
                                   id="name"
                                   aria-describedby="name"
-                                  name="storeName"
-                                  value="Papel La Casa"
+                                  name="name"
+                                  value="{{$product->name}}"
                                 />
                               </div>
                             </div>
@@ -119,21 +48,31 @@
                                   id="price"
                                   aria-describedby="price"
                                   name="price"
-                                  value="200"
+                                  value="{{$product->price}}"
                                 />
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="description">Category</label>
+                                <select name="fk_categories_id" id="fk_categories_id" class="form-control">
+                                  <option value="{{$product->category->id}}">{{$product->category->name}}</option>
+                                  @foreach ($categories as $category)
+                                  <option value="{{$category->id}}">{{$category->name}}</option>
+                                      
+                                  @endforeach
+                                </select>
                               </div>
                             </div>
                             <div class="col-md-12">
                               <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea
-                                  name="descrioption"
+                                  name="description"
                                   id="description"
-                                  cols="30"
-                                  rows="4"
                                   class="form-control"
                                 >
-The Nike Air Max 720 SE goes bigger than ever before with Nike's tallest Air unit yet for unimaginable, all-day comfort. There's super breathable fabrics on the upper, while colours add a modern edge. Bring the past into the future with the Nike Air Max 2090, a bold look inspired by the DNA of the iconic Air Max 90. Brand-new Nike Air cushioning
+                                {!! $product->description !!}
                                 </textarea>
                               </div>
                             </div>
@@ -156,57 +95,43 @@ The Nike Air Max 720 SE goes bigger than ever before with Nike's tallest Air uni
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-4">
+                          @foreach ($product->galleries as $gallery)
+                            <div class="col-md-4">
                             <div class="gallery-container">
                               <img
-                                src="/images/product-card-1.png"
+                                src="{{Storage::url($gallery->photos ?? '')}}"
                                 alt=""
                                 class="w-100"
+                                height="200"
                               />
-                              <a class="delete-gallery" href="#">
+                            <a class="delete-gallery" href="{{route('product-galery-delete',$gallery->id)}}">
                                 <img src="/images/icon-delete.svg" alt="" />
                               </a>
                             </div>
                           </div>
-                          <div class="col-md-4">
-                            <div class="gallery-container">
-                              <img
-                                src="/images/product-card-2.png"
-                                alt=""
-                                class="w-100"
-                              />
-                              <a class="delete-gallery" href="#">
-                                <img src="/images/icon-delete.svg" alt="" />
-                              </a>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="gallery-container">
-                              <img
-                                src="/images/product-card-3.png"
-                                alt=""
-                                class="w-100"
-                              />
-                              <a class="delete-gallery" href="#">
-                                <img src="/images/icon-delete.svg" alt="" />
-                              </a>
-                            </div>
-                          </div>
-                          <div class="col mt-3">
-                            <input
-                              type="file"
-                              id="file"
-                              style="display: none;"
-                              multiple
-                            />
-                            <button
-                              class="btn btn-secondary btn-block"
-                              onclick="thisFileUpload();"
-                            >
-                              Add Photo
-                            </button>
-                          </div>
+                          @endforeach
+                          
                         </div>
+                            <div class="col mt-3">
+                            <form action="{{route('product-upload-gallery')}}" enctype="multipart/form-data" method="POST">
+                              @csrf
+                            <input type="hidden" name="fk_product_id" id="fk_product_id" value="{{$product->id}}">
+                              <input
+                                  type="file"
+                                  name="photos"
+                                  id="file"
+                                  style="display: none;"
+                                  onchange="form.submit()"
+                                />
+                                <button
+                                type="button"
+                                  class="btn btn-secondary btn-block"
+                                  onclick="thisFileUpload();"
+                                >
+                                Add Photo
+                              </button>
+                            </form>
+                            </div>
                       </div>
                     </div>
                   </div>
@@ -214,7 +139,7 @@ The Nike Air Max 720 SE goes bigger than ever before with Nike's tallest Air uni
               </div>
             </div>
           </div>
-        </div>
+        
 @endsection
 
 @push('addon-script')
