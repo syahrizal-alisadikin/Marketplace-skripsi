@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\Superadmin\ProductRequest;
 use Illuminate\Container\RewindableGenerator;
+use Image;
 
 class ProductController extends Controller
 {
@@ -35,12 +36,19 @@ class ProductController extends Controller
         // dd($data);
         $data['slug'] = Str::slug($request->name);
         $product = Product::create($data);
-        $gallery = [
-            'fk_product_id' => $product->id,
-            'photos' => $request->file('photos')->store('assets/product', 'public')
-        ];
 
-        ProductGallery::create($gallery);
+        // Create Galleri
+        $gallery = new ProductGallery;
+        $gallery->fk_product_id = $product->id;
+        $image                  = $request->photos;
+        $namafile = time() . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(300, "auto", function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('product/' . $namafile);
+        $image->move('product-original/', $namafile);
+        $gallery->photos             = $namafile;
+
+        $gallery->save();
 
         return redirect()->route('dashboard-product');
     }
@@ -67,11 +75,19 @@ class ProductController extends Controller
 
     public function uploadGallery(Request $request)
     {
-        $data = $request->all();
-        $data['photos'] = $request->file('photos')->store('assets/product', 'public');
+        $gallery = new ProductGallery;
+        $gallery->fk_product_id = $request->fk_product_id;
+        $image                  = $request->photos;
+        $namafile = time() . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(500, "auto", function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('product/' . $namafile);
+        $image->move('product-original/', $namafile);
+        $gallery->photos             = $namafile;
 
-        // dd($data);
-        ProductGallery::create($data);
+        $gallery->save();
+
+
 
         return redirect()->route('product-detail', $request->fk_product_id);
     }

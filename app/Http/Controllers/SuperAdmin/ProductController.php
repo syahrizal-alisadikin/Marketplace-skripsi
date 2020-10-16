@@ -47,7 +47,7 @@ class ProductController extends Controller
                         ';
                 })
                 ->editColumn('image', function ($item) {
-                    return $item->photo ? '<img src="' . Storage::url($item->photo) . '" style="max-width:100px;" />' : '';
+                    return $item->photo ? '<img src="' . url('product/' . $item->photo) . '" style="max-width:100px;" />' : '';
                 })
                 ->rawColumns(['action', 'image'])
                 ->make();

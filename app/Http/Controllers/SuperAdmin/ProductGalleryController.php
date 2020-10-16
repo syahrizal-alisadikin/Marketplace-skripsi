@@ -12,6 +12,7 @@ use App\Models\ProductGallery;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Image;
 
 class ProductGalleryController extends Controller
 {
@@ -48,7 +49,7 @@ class ProductGalleryController extends Controller
                         ';
                 })
                 ->editColumn('photos', function ($item) {
-                    return $item->photos ? '<img src="' . Storage::url($item->photos) . '" style="max-width:100px;" />' : '';
+                    return $item->photos ? '<img src="' . url('product/' . $item->photos) . '" style="max-width:100px;" />' : '';
                 })
                 ->rawColumns(['action', 'photos'])
                 ->make();
@@ -81,11 +82,17 @@ class ProductGalleryController extends Controller
     public function store(ProductGalleryRequest $request)
     {
 
-        $data = $request->all();
-        $data['photos'] = $request->file('photos')->store('assets/product', 'public');
+        $gallery = new ProductGallery;
+        $gallery->fk_product_id = $request->fk_product_id;
+        $image                  = $request->photos;
+        $namafile = time() . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(500, "auto", function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('product/' . $namafile);
+        $image->move('product-original/', $namafile);
+        $gallery->photos             = $namafile;
 
-        // dd($data);
-        ProductGallery::create($data);
+        $gallery->save();
 
         return redirect()->route('product-gallery.index');
     }

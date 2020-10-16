@@ -99,7 +99,7 @@
                             <div class="col-md-4">
                             <div class="gallery-container">
                               <img
-                                src="{{Storage::url($gallery->photos ?? '')}}"
+                                src="{{url('product/'.$gallery->photos ?? '')}}"
                                 alt=""
                                 class="w-100"
                                 height="200"

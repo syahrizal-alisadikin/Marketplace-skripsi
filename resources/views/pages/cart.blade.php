@@ -47,7 +47,7 @@
                     <td style="width: 25%;">
                      @if ($cart->product->galleries)
                       <img
-                        src="{{Storage::url($cart->product->galleries->first()->photos)}}"
+                        src="{{url('product/'.$cart->product->galleries->first()->photos)}}"
                         alt=""
                         class="cart-image"
                       />

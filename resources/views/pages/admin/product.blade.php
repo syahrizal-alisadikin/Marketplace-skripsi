@@ -32,7 +32,7 @@
                     >
                       <div class="card-body">
                         <img
-                          src="{{Storage::url($product->galleries->first()->photos ?? '')}}"
+                          src="{{url("product/".$product->galleries->first()->photos ?? '')}}"
                           alt=""
                           class="w-100 mb-2"
                           height="200"

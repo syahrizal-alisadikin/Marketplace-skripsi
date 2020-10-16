@@ -61,7 +61,7 @@
                     <div class="row">
                       <div class="col-md-1">
                         <img
-                          src="{{Storage::url($transaction->product->galleries->first()->photos ?? '')}}"
+                          src="{{url('product/'.$transaction->product->galleries->first()->photos ?? '')}}"
                           alt=""
                           class="w-100"
                         />
@@ -108,13 +108,13 @@
                     @foreach ($buytransaction as $transaction)
                       <a
                     class="card card-list d-block"
-                    href="/dashboard-transactions-details.html"
+                    href="{{route('dashboard-transaction-detail',$transaction->id)}}"
                   >
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-1">
                         <img
-                          src="{{Storage::url($transaction->product->galleries->first()->photos ?? '')}}"
+                          src="{{url('product/'.$transaction->product->galleries->first()->photos ?? '')}}"
                           alt=""
                           class="w-100"
                         />

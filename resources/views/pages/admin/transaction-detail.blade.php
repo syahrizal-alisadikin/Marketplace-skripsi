@@ -24,9 +24,10 @@
                 <div class="row">
                   <div class="col-12 col-md-4">
                     <img
-                      src="{{Storage::url($transaction->product->galleries->first()->photos ?? '')}}"
+                      src="{{url('product/'.$transaction->product->galleries->first()->photos ?? '')}}"
                       alt=""
                       class="w-100 mb-3"
+                      style="border-radius: 8px"
                     />
                   </div>
                   <div class="col-12 col-md-8">

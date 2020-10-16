@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::GET('/', 'MarketController@index')->name('home');
 
-Route::GET('/category', 'CategoryController@index')->name('categories');
+Route::GET('/category-product', 'CategoryController@index')->name('categories');
 Route::GET('/category/{id}', 'CategoryController@detail')->name('categories-detail');
 
 Route::GET('/details/{id}', 'DetailController@index')->name('product-detail-user');
@@ -61,6 +61,7 @@ Route::prefix('Superadmin')
         Route::RESOURCE('user', 'UserController');
         Route::RESOURCE('products', 'ProductController');
         Route::RESOURCE('product-gallery', 'ProductGalleryController');
+        Route::RESOURCE('transaction-superadmin', 'TransactionController');
     });
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

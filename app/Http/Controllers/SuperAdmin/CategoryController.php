@@ -9,6 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Superadmin\CategoryRequest;
 use Illuminate\Support\Str;
+use Image;
 
 class CategoryController extends Controller
 {
@@ -45,7 +46,7 @@ class CategoryController extends Controller
                         ';
                 })
                 ->editColumn('image', function ($item) {
-                    return $item->photo ? '<img src="' . Storage::url($item->photo) . '" style="max-width:100px;" />' : '';
+                    return $item->photo ? '<img src="' . url('category/' . $item->photo) . '" style="max-width:100px;" />' : '';
                 })
                 ->rawColumns(['action', 'image'])
                 ->make();
@@ -71,13 +72,24 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $data = $request->all();
-        // dd($data);
-        $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
+        // $data = $request->all();
+        // // dd($data);
+        // $data['slug'] = Str::slug($request->name);
+        // $data['photo'] = $request->file('photo')->store('assets/category', 'public');
 
-        Category::create($data);
+        // Category::create($data);
+        $category = new Category;
+        $category->name = $request->name;
+        $category->slug = $request->name;
+        $image                  = $request->photo;
+        $namafile = time() . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(500, "auto", function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('category/' . $namafile);
+        $image->move('category-original/', $namafile);
+        $category->photo             = $namafile;
 
+        $category->save();
         return redirect()->route('category.index');
     }
 
@@ -114,11 +126,22 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
+
         $item = Category::findOrFail($id);
-        $item->update($data);
+        $filename       = $item->photo;
+        if ($request->hasFile('photo')) {
+            $filename   = Str::random(3) . $request->email . ".jpg";
+            $file       =  $request->file('photo');
+            Image::make($file)->resize(500, "auto", function ($constraint) {
+                $constraint->aspectRatio();
+            })->save('category/' . $filename);
+            // unlink(base_path('public/akadbaiq/product/' . $data->image));
+        }
+        $item->update([
+            'name'       => $request->name,
+            'slug'          => $request->name,
+            'photo'             => $filename,
+        ]);
 
         return redirect()->route('category.index');
     }

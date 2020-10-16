@@ -172,7 +172,7 @@
            @foreach($product->galleries as $gallery)
             {
               id: {{$gallery->id}},
-              url: "{{Storage::url($gallery->photos)}}",
+              url: "{{url('product/'.$gallery->photos)}}",
             },
           @endforeach
           ],

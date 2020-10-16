@@ -23,9 +23,10 @@
                    <a class="component-categories d-block" href="{{route('categories-detail',$category->slug)}}">
                     <div class="categories-image">
                       <img
-                        src="{{Storage::url($category->photo)}}"
+                        src="{{url('category/'.$category->photo)}}"
                         alt="Gadgets Categories"
                         class="w-100"
+                        height="50"
                       />
                     </div>
                     <p class="categories-text">
@@ -71,7 +72,7 @@
                     class="products-image"
                     style="
                       @if($product->galleries->count())
-                      background-image: url('{{Storage::url($product->galleries->first()->photos)}}');
+                      background-image: url('{{url('product/'.$product->galleries->first()->photos)}}');
                       @else
                       background-color: #eee;
                       @endif

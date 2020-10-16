@@ -49,8 +49,8 @@
               >Categories</a
             >
             <a
-              href="#"
-              class="list-group-item list-group-item-action"
+              href="{{route('transaction-superadmin.index')}}"
+              class="list-group-item list-group-item-action {{ request()->is('Superadmin/transaction-superadmin*') ? 'active' : ''}}"
               >Transactions</a
             >
            <a
@@ -109,7 +109,7 @@
                       alt=""
                       class="rounded-circle mr-2 profile-picture"
                     />
-                    Hi, Angga
+                    Hi, {{Auth::user()->name}}
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   
@@ -123,7 +123,7 @@
               <ul class="navbar-nav d-block d-lg-none mt-3">
                 <li class="nav-item">
                   <a class="nav-link" href="#">
-                    Hi, Angga
+                    Hi,  {{Auth::user()->name}}
                   </a>
                 </li>
                 <li class="nav-item">

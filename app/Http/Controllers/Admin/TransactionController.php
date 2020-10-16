@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransactionDetail;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
@@ -35,6 +36,20 @@ class TransactionController extends Controller
     {
         $data = $request->all();
         $item = TransactionDetail::findOrFail($id);
+        $transaction = Transaction::findOrFail($item->fk_transaction_id);
+        if ($request->shipping_status == "SHIPPING") {
+            $transaction->update([
+                'transaction_status' => "SHIPING"
+            ]);
+        } elseif ($request->shipping_status == "SUCCESS") {
+            $transaction->update([
+                'transaction_status' => "SHIPING"
+            ]);
+        } else {
+            $transaction->update([
+                'transaction_status' => "PENDING"
+            ]);
+        }
 
         $item->update($data);
         return redirect()->route('dashboard-transaction-detail', $id);
