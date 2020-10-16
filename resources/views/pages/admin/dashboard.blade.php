@@ -76,7 +76,7 @@
                             {{$transaction->transaction->user->name ?? ''}}
                           </div>
                           <div class="col-md-3">
-                            {{$transaction->created_at ?? ''}}
+                            {{$transaction->created_at->format('d-m-Y') ?? ''}}
                           </div>
                           <div class="col-md-1 d-none d-md-block">
                             <img
@@ -91,6 +91,13 @@
                  
                   </div>
                 </div>
+                <div class="row justify-content-center">
+                <div class="col-md-4">
+                  <div class="link text-center">
+                    {{ $transaction_data->links() }}
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
           </div>

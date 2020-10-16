@@ -15,16 +15,25 @@ class DashboardController extends Controller
         $transaction = TransactionDetail::with(['transaction.user', 'product.galleries'])
             ->whereHas('product', function ($product) {
                 $product->where('fk_user_id', Auth::user()->id);
+            })->paginate(5);
+        $transaction_count = TransactionDetail::with(['transaction.user', 'product.galleries'])
+            ->whereHas('product', function ($product) {
+                $product->where('fk_user_id', Auth::user()->id);
+            })->count();
+        $revenue_transaction = TransactionDetail::with(['transaction.user', 'product.galleries'])
+            ->whereHas('product', function ($product) {
+                $product->where('fk_user_id', Auth::user()->id);
             });
-        $revenue = $transaction->get()->reduce(function ($carry, $item) {
+        // dd($transaction);
+        $revenue = $revenue_transaction->get()->reduce(function ($carry, $item) {
             return $carry + $item->price;
         });
 
         $customer = User::count();
 
         return view('pages.admin.dashboard', [
-            'transaction_count' => $transaction->count(),
-            'transaction_data' => $transaction->get(),
+            'transaction_count' => $transaction_count,
+            'transaction_data' => $transaction,
             'revenue' => $revenue,
             'customer' => $customer,
         ]);
