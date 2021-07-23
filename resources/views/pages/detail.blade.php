@@ -104,52 +104,66 @@
           <div class="container">
             <div class="row">
               <div class="col-12 col-lg-8 mt-3 mb-3">
-                <h5>Customer Review (3)</h5>
+                <h5>Customer Review </h5>
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-lg-8">
+              <div class="col-12 col-lg-6">
+                @if (count($comment) > 0)
+
+                @foreach ($comment as $item)
+                <ul class="list-unstyled">
+                   
+                  <li class="media">
+                    <img
+                      src="{{ $item->user->profile_photo_path ?? 'https://ui-avatars.com/api/?name=' . $item->user->name }}"
+                      alt=""
+                      class="mr-3 rounded-circle"
+                    />
+                    <div class="media-body">
+                    <h5 class="mt-2 mb-1">{{ $item->user->name }}</h5>
+                    {{ $item->comment }}
+                    </div>
+                  </li>
+
+                   @auth
+                       <div class="media-body my-4">
+                     <form action="{{ route('commentar') }}" method="POST">
+                       @csrf
+                        <input type="hidden" name="fk_product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="fk_user_id" value="{{ Auth::user()->id }}">
+                        
+                        <textarea name="comment" placeholder="Masukan Pesan" cols="20" rows="5" class="form-control"></textarea>
+                        <button type="submit" class="btn btn-success mt-2"> Send</button>
+                     </form>
+                    </div>
+                   @endauth
+                 
+                </ul>
+                @endforeach
+                @else
                 <ul class="list-unstyled">
                   <li class="media">
-                    <img
-                      src="/images/icon-testimonial-1.png"
-                      class="mr-3 rounded-circle"
-                      alt=""
-                    />
-                    <div class="media-body">
-                      <h5 class="mt-2 mb-1">Hazza Risky</h5>
-                      I thought it was not good for living room. I really happy
-                      to decided buy this product last week now feels like
-                      homey.
-                    </div>
+                   Belum Ada Comentar
+                    
                   </li>
-                  <li class="media my-4">
-                    <img
-                      src="/images/icon-testimonial-2.png"
-                      class="mr-3 rounded-circle"
-                      alt=""
-                    />
-                    <div class="media-body">
-                      <h5 class="mt-2 mb-1">Anna Sukkirata</h5>
-                      Color is great with the minimalist concept. Even I thought
-                      it was made by Cactus industry. I do really satisfied with
-                      this.
+
+                   @auth
+                       <div class="media-body my-4">
+                     <form action="{{ route('commentar') }}" method="POST">
+                       @csrf
+                        <input type="hidden" name="fk_product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="fk_user_id" value="{{ Auth::user()->id }}">
+                        
+                        <textarea name="comment" placeholder="Masukan Pesan" cols="20" rows="5" class="form-control"></textarea>
+                        <button type="submit" class="btn btn-success mt-2"> Send</button>
+                     </form>
                     </div>
-                  </li>
-                  <li class="media">
-                    <img
-                      src="/images/icon-testimonial-3.png"
-                      class="mr-3 rounded-circle"
-                      alt=""
-                    />
-                    <div class="media-body">
-                      <h5 class="mt-2 mb-1">Dakimu Wangi</h5>
-                      When I saw at first, it was really awesome to have with.
-                      Just let me know if there is another upcoming product like
-                      this.
-                    </div>
-                  </li>
+                   @endauth
+                 
                 </ul>
+                
+                @endif
               </div>
             </div>
           </div>

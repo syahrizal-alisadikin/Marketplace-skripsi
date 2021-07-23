@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::GET('/cart', 'CartController@index')->name('cart');
     Route::POST('/checkout', 'CheckoutController@proccess')->name('checkout');
     Route::GET('/Dashboard', 'Admin\DashboardController@index')->name('dashboard');
-
+    Route::POST('comentar-user','Admin\ProductController@comment')->name('commentar');
     Route::GET('/Dashboard-Product', 'Admin\ProductController@index')->name('dashboard-product');
     Route::GET('/Dashboard-Product/create', 'Admin\ProductController@create')->name('product-create');
     Route::POST('/Dashboard-Product/store', 'Admin\ProductController@store')->name('product-store');

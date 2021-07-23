@@ -10,6 +10,7 @@ use App\Models\ProductGallery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\Superadmin\ProductRequest;
+use App\Models\Comment;
 use Illuminate\Container\RewindableGenerator;
 use Image;
 
@@ -28,6 +29,17 @@ class ProductController extends Controller
         return view('pages.admin.product-create', compact('categories'));
     }
 
+    public function comment()
+    {
+        Comment::create([
+            'fk_user_id' => request()->fk_user_id,
+            'fk_product_id' => request()->fk_product_id,
+            'comment' => request()->comment,
+        ]);
+
+        $product = Product::with(['galleries', 'user'])->findOrFail(request()->fk_product_id);
+        return redirect()->route('product-detail-user',$product->slug);
+    }
 
 
     public function store(ProductRequest $request)

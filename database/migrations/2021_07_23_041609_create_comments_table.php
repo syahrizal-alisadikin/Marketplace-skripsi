@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DeleteResiAtTransactionsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class DeleteResiAtTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('resi');
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->integer('fk_user_id');
+            $table->integer('fk_product_id');
+            $table->text('comment');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ class DeleteResiAtTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->string('resi');
-        });
+        Schema::dropIfExists('comments');
     }
 }

@@ -16,8 +16,8 @@ class ChangeNullableFieldAtUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->longText('address_one')->nullable()->change();
             $table->longText('address_two')->nullable()->change();
-            $table->integer('kf_provinces_id')->nullable()->change();
-            $table->integer('kf_regencies_id')->nullable()->change();
+            $table->integer('fk_provinces_id')->nullable()->change();
+            $table->integer('fk_regencies_id')->nullable()->change();
             $table->integer('zip_code')->nullable()->change();
             $table->string('country')->nullable()->change();
             $table->string('phone_number')->nullable()->change();
