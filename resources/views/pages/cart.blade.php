@@ -94,6 +94,7 @@
           @csrf
             <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
               <input type="hidden" id="totalPrice" name="total_price" value="{{$totalprice}}">
+              <input type="hidden" id="totalPay" name="total_pay" value="{{$totalprice}}">
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="address_one">Address 1</label>
@@ -256,7 +257,7 @@
                 <h2>Payment Informations</h2>
               </div>
             </div>
-            <div class="row" data-aos="fade-up" data-aos-delay="200">
+            <div class="row" data-aos="fade-up" data-aos-delay="200" >
               <div class="col-4 col-md-2">
                 <div class="product-title">$0</div>
                 <div class="product-subtitle">Country Tax</div>
@@ -273,7 +274,7 @@
                 <div class="product-title text-success" id="totalPembayaran">${{$totalprice ?? 0}}</div>
                 <div class="product-subtitle">Total</div>
               </div>
-              <div class="col-8 col-md-3">
+              <div class="col-8 col-md-3" v-if="checkout">
                 <button
                 type="submit"
                 class="btn btn-success mt-4 px-4 btn-block"
@@ -310,7 +311,7 @@
         data(){
           return{
           courier:false,
-          courier_cost:null,
+          courier_cost:0,
           courier_service:"",
           cost:false,
           costs:[],
@@ -320,6 +321,7 @@
           provinces_id:null,
           city_id:null,
           courier_type:null,
+          checkout:null,
           }
         },
         methods: {
@@ -357,17 +359,20 @@
             var self = this;
             let shipping = self.costService.split("|");
 
+            self.checkout = true;
+            console.log(self.chekhout)
+
             self.courier_cost = shipping[0];
             self.courier_service = shipping[1];
-            let total = document.getElementById('totalPrice').value;
+            let total = document.getElementById('totalPay').value;
             console.log(total)
             console.log(self.courier_cost)
-            let formatCost = new Intl.NumberFormat('id-ID', { maximumSignificantDigits: 4 }).format(self.courier_cost);;
+            let formatCost = new Intl.NumberFormat('id-ID', { maximumSignificantDigits: 5 }).format(self.courier_cost);
             document.getElementById('courier_cost').innerHTML = `Rp ${formatCost}`;
 
             let totalPayment = parseInt(total) + parseInt(self.courier_cost);
-            let formatPayment = new Intl.NumberFormat('id-ID', { maximumSignificantDigits: 5 }).format(totalPayment);;
-
+            let formatPayment = new Intl.NumberFormat('id-ID', { maximumSignificantDigits: 6 }).format(totalPayment);
+            console.log("total " + totalPayment);
             document.getElementById('totalPembayaran').innerHTML = `Rp ${formatPayment}`;
             
             document.getElementById('totalPrice').value = totalPayment;
