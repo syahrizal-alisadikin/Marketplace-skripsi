@@ -38,7 +38,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::with(['galleries', 'user'])->findOrFail(request()->fk_product_id);
-        return redirect()->route('product-detail-user',$product->slug);
+        return redirect()->route('product-detail-user',$product->slug)->with('success','Komentar Success !!');
     }
 
 

@@ -15,6 +15,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
+        "kavist/rajaongkir": "1.1",
         "laravel/fortify": "^1.6",
         "laravel/framework": "^8.0",
         "laravel/jetstream": "^1.3",

@@ -126,7 +126,11 @@
                     </div>
                   </li>
 
-                   @auth
+                   
+                 
+                </ul>
+                @endforeach
+                @auth
                        <div class="media-body my-4">
                      <form action="{{ route('commentar') }}" method="POST">
                        @csrf
@@ -138,9 +142,6 @@
                      </form>
                     </div>
                    @endauth
-                 
-                </ul>
-                @endforeach
                 @else
                 <ul class="list-unstyled">
                   <li class="media">
