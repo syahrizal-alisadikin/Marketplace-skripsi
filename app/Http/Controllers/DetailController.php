@@ -15,6 +15,7 @@ class DetailController extends Controller
         $product = Product::with(['galleries', 'user'])->where('slug', $slug)->firstOrFail();
         $comment = Comment::where('fk_product_id',$product->id)->with('user')->get();
         // dd($comment);
+        // dd($comment);
         return view('pages.detail', compact('product','comment'));
     }
 
@@ -24,9 +25,16 @@ class DetailController extends Controller
             'fk_product_id' => $id,
             'fk_user_id' => Auth::user()->id
         ];
+        $cart = Cart::where('fk_product_id',$id);
 
-        Cart::create($data);
+        if($cart->count()){
+           $cart->increment('quantity');
+           $cart = $cart->first();
+        }else{
 
-        return redirect()->route('cart');
+            Cart::create($data);
+        }
+
+        return redirect()->route('cart')->with('success','Data Berhasil Checkout !!');
     }
 }

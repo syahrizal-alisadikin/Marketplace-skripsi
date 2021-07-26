@@ -29,8 +29,10 @@ class ProductController extends Controller
         return view('pages.admin.product-create', compact('categories'));
     }
 
-    public function comment()
+    public function comment(Request $request)
     {
+
+        // dd($request->all());
         Comment::create([
             'fk_user_id' => request()->fk_user_id,
             'fk_product_id' => request()->fk_product_id,

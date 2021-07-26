@@ -37,6 +37,7 @@
                     <th scope="col">Image</th>
                     <th scope="col">Name &amp; Seller</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col">Menu</th>
                   </tr>
                 </thead>
@@ -61,6 +62,10 @@
                       <div class="product-title">${{$cart->product->price}}</div>
                       <div class="product-subtitle">USD</div>
                     </td>
+                    <td style="width: 35%;">
+                      <div class="product-title">{{$cart->quantity}}</div>
+                      <div class="product-subtitle">Quantity</div>
+                    </td>
                     <td style="width: 20%;">
                     <form action="{{route('delete-cart',$cart->id)}}" method="POST">
                       @csrf
@@ -71,7 +76,7 @@
                     </form>
                     </td>
                   </tr> 
-                  @php $totalprice += $cart->product->price @endphp
+                  @php $totalprice += $cart->product->price * $cart->quantity @endphp
                   @empty
                      <tr class="text-center">
                        <td colspan="4">Tidak ada cart</td>
@@ -344,7 +349,7 @@
                 courier: self.courier_type, // jenis kurir
               })
                 .then((response) => {
-               
+                 
                   // set state cost menjadi true, untuk menampilkan pilihan cost pengiriman
                   self.cost = true;
                   //assign state costs dengan hasil response
@@ -360,12 +365,12 @@
             let shipping = self.costService.split("|");
 
             self.checkout = true;
-            console.log(self.chekhout)
+            
 
             self.courier_cost = shipping[0];
             self.courier_service = shipping[1];
             let total = document.getElementById('totalPay').value;
-            console.log(total)
+            // console.log(total)
             console.log(self.courier_cost)
             let formatCost = new Intl.NumberFormat('id-ID', { maximumSignificantDigits: 5 }).format(self.courier_cost);
             document.getElementById('courier_cost').innerHTML = `Rp ${formatCost}`;
@@ -381,6 +386,7 @@
             var self = this;
             axios.get('{{ route('api-provinces') }}')
                 .then(function(response){
+
                   self.provinces = response.data;
                   
                 });
@@ -388,8 +394,10 @@
 
             getRegenciesData(){
                 var self = this;
+                
                 axios.get('{{ url('api/city') }}/' + self.provinces_id)
                     .then(function(response){
+                      console.log(response.data)
                     self.regencies = response.data;
                      
               });
