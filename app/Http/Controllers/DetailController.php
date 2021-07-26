@@ -25,7 +25,7 @@ class DetailController extends Controller
             'fk_product_id' => $id,
             'fk_user_id' => Auth::user()->id
         ];
-        $cart = Cart::where('fk_product_id',$id);
+        $cart = Cart::where('fk_product_id',$id)->where('fk_user_id',Auth::user()->id);
 
         if($cart->count()){
            $cart->increment('quantity');
