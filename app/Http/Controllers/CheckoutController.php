@@ -17,7 +17,6 @@ class CheckoutController extends Controller
 {
     public function proccess(Request $request)
     {
-        dd($request->all());
         // Save User Data
         $user = Auth::user();
         $user->update($request->except('total_price'));
