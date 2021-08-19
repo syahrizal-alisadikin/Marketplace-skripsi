@@ -21,17 +21,18 @@ class DetailController extends Controller
 
     public function AddCart(Request $request, $id)
     {
-        $data = [
-            'fk_product_id' => $id,
-            'fk_user_id' => Auth::user()->id
-        ];
+       
         $cart = Cart::where('fk_product_id',$id)->where('fk_user_id',Auth::user()->id);
 
         if($cart->count()){
            $cart->increment('quantity');
            $cart = $cart->first();
         }else{
-
+        $data = [
+                    'fk_product_id' => $id,
+                    'fk_user_id' => Auth::user()->id,
+                    'quantity' => 1,
+                ];
             Cart::create($data);
         }
 
