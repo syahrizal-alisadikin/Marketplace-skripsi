@@ -55,10 +55,10 @@ class CheckoutController extends Controller
 
         // Config Midtrans
         
-        // Config::$serverKey = config('services.midtrans.serverKey');
-        // Config::$isProduction = config('services.midtrans.isProduction');
-        // Config::$isSanitized = config('services.midtrans.isSanitized');
-        // Config::$is3ds = config('services.midtrans.is3ds');
+        Config::$serverKey = config('services.midtrans.serverKey');
+        Config::$isProduction = config('services.midtrans.isProduction');
+        Config::$isSanitized = config('services.midtrans.isSanitized');
+        Config::$is3ds = config('services.midtrans.is3ds');
         // dd($serverKey);
         // Buat Aray untuk dikirim ke midtrans
         $midtrans = [
@@ -76,15 +76,15 @@ class CheckoutController extends Controller
             "vtweb" => []
         ];
         // dd($paymentUrl);
-        // try {
-        //     $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
-        //     // Get Snap Payment Page URL
+        try {
+            $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
+            // Get Snap Payment Page URL
 
-        //     // Redirect to Snap Payment Page
-        //     return redirect($paymentUrl);
-        // } catch (Exception $e) {
-        //     echo $e->getMessage();
-        // }
+            // Redirect to Snap Payment Page
+            return redirect($paymentUrl);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
 
