@@ -27,6 +27,9 @@ Route::POST('/details/{id}', 'DetailController@AddCart')->name('add-cart');
 
 Route::GET('/success', 'CartController@success')->name('success');
 Route::GET('/register/success', 'CartController@register_success')->name('register-success');
+Route::GET('/kuisioner', 'MarketController@kuisioner')->name('kuis');
+Route::POST('/kuisioner', 'MarketController@Formkuisioner')->name('form-kuisioner');
+Route::get('/thanks', 'MarketController@thanks')->name('thanks');
 
 
 
@@ -52,7 +55,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::GET('/Dashboard-Setting/account', 'Admin\SettingController@account')->name('dashboard-setting-account');
     Route::POST('/Dashboard-Setting/update/{redirect}', 'Admin\SettingController@update')->name('dashboard-setting-update');
 });
-
 Route::prefix('Superadmin')
     ->namespace('SuperAdmin')
     ->group(function () {
