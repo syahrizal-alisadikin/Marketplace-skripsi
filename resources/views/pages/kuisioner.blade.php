@@ -278,15 +278,15 @@
               </div>
               <div class="form-check">
                 <input
-                  name="harapan4"
                   class="form-check-input"
                   type="checkbox"
-                  value="lain-lain"
                   id="flexCheckChecked4"
+                  onclick="myFunction(this)"
                 />
                 <label class="form-check-label" for="flexCheckChecked4">
                   dan lain-lain
                 </label>
+                <input type="hidden" name="harapan4" id="harapan4" class="form-control" placeholder="Masukan Harapan Produk / jasa">
               </div>
             </div>
             <div class="my-3">
@@ -397,6 +397,17 @@
             buttons: false,
         });
         @endif
+  </script>
+  <script>
+      function myFunction(checkbox) {
+          if (checkbox.checked)
+            {
+                      let lain = document.getElementById('harapan4').type = "text";
+            }else{
+                      let lain = document.getElementById('harapan4').type = "hidden";
+
+            }
+      }
   </script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
