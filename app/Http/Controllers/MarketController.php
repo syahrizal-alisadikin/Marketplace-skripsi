@@ -80,6 +80,7 @@ class MarketController extends Controller
         $membeliMenabung = Kuisioner::where('membeli','Menabung')->count();
         $caradadakan = Kuisioner::where('cara','dadakan')->count();
         $caradirencanakan = Kuisioner::where('cara','direncanakan')->count();
+        $motor = Kuisioner::where('harapan10', 'like', '%'. 'Kendaraan Motor' . '%')->count();
 
         return response()->json([
             'success' => true,
@@ -96,6 +97,7 @@ class MarketController extends Controller
                 'membeliMenabung' => $membeliMenabung,
                 'caradadakan' => $caradadakan,
                 'caradirencanakan' => $caradirencanakan,
+                'motor' => $motor,
             ],200
         ]);
     }
