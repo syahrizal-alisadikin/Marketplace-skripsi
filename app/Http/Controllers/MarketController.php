@@ -66,4 +66,37 @@ class MarketController extends Controller
     {
         return view('pages.thanks');
     }
+
+    public function dataKuis()
+    {
+        $data = Kuisioner::all();
+        $usia15 = Kuisioner::where('usia', 'like', '%'. 15 . '%')->count();
+        $usia21 = Kuisioner::where('usia', 'like', '%'. 21 . '%')->count();
+        $usia27 = Kuisioner::where('usia', 'like', '%'. 27 . '%')->count();
+        $usia36 = Kuisioner::where('usia', 'like', '%'. 36 . '%')->count();
+        $usia46 = Kuisioner::where('usia', 'like', '%'. 46 . '%')->count();
+        $membeliCredit = Kuisioner::where('membeli','Credit')->count();
+        $membeliCash = Kuisioner::where('membeli','Cash')->count();
+        $membeliMenabung = Kuisioner::where('membeli','Menabung')->count();
+        $caradadakan = Kuisioner::where('cara','dadakan')->count();
+        $caradirencanakan = Kuisioner::where('cara','direncanakan')->count();
+
+        return response()->json([
+            'success' => true,
+            'Message' => 'Data berhasil diambil',
+            'kuisioner' => [
+                'kuis' => $data,
+                'usia15' => $usia15,
+                'usia21' => $usia21,
+                'usia27' => $usia27,
+                'usia36' => $usia36,
+                'usia46' => $usia46,
+                'membeliCredit' => $membeliCredit,
+                'membeliCash' => $membeliCash,
+                'membeliMenabung' => $membeliMenabung,
+                'caradadakan' => $caradadakan,
+                'caradirencanakan' => $caradirencanakan,
+            ],200
+        ]);
+    }
 }
