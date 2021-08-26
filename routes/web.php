@@ -30,7 +30,7 @@ Route::GET('/register/success', 'CartController@register_success')->name('regist
 Route::GET('/kuisioner', 'MarketController@kuisioner')->name('kuis');
 Route::POST('/kuisioner', 'MarketController@Formkuisioner')->name('form-kuisioner');
 Route::get('/thanks', 'MarketController@thanks')->name('thanks');
-Route::get('/hasil-kuis','MarketCOntroller@dataKuis');
+Route::get('/hasil-kuis','MarketController@dataKuis');
 
 
 Route::group(['middleware' => ['auth']], function () {
