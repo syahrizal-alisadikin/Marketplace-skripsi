@@ -80,7 +80,14 @@ class MarketController extends Controller
         $membeliMenabung = Kuisioner::where('membeli','Menabung')->count();
         $caradadakan = Kuisioner::where('cara','dadakan')->count();
         $caradirencanakan = Kuisioner::where('cara','direncanakan')->count();
+        $electronic = Kuisioner::where('harapan1', 'like', '%'. 'Electronic' . '%')->count();
+        $liburan = Kuisioner::where('harapan2', 'like', '%'. 'Liburan' . '%')->count();
+        $aqiqah = Kuisioner::where('harapan3', 'like', '%'. 'Aqiqah' . '%')->count();
+        $kurban = Kuisioner::where('harapan7', 'like', '%'. 'Qurban' . '%')->count();
+        $event = Kuisioner::where('harapan8', 'like', '%'. 'Event' . '%')->count();
+        $liburan2 = Kuisioner::where('harapan9', 'like', '%'. 'Liburan' . '%')->count();
         $motor = Kuisioner::where('harapan10', 'like', '%'. 'Kendaraan Motor' . '%')->count();
+        $renove = Kuisioner::where('harapan11', 'like', '%'. 'Renovasi' . '%')->count();
 
         return response()->json([
             'success' => true,
@@ -97,8 +104,15 @@ class MarketController extends Controller
                 'membeliMenabung' => $membeliMenabung,
                 'caradadakan' => $caradadakan,
                 'caradirencanakan' => $caradirencanakan,
+                'electronic' => $electronic,
+                'liburan' => $liburan,
+                'aqiqah' => $aqiqah,
+                'kurban' => $kurban,
+                'event' => $event,
+                'liburan2' => $liburan2,
                 'motor' => $motor,
-            ],200
-        ]);
+                'renove' => $renove,
+            ]
+        ],200);
     }
 }
