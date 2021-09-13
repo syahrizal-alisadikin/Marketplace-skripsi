@@ -94,13 +94,13 @@
                           Province
                         </div>
                         <div class="product-subtitle">
-                          {{ App\Models\Province::findOrFail($transaction->transaction->user->fk_provinces_id)->name ?? null}}
+                          {{-- {{ App\Models\Province::findOrFail($transaction->transaction->user->fk_provinces_id)->name ?? null}} --}}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
                         <div class="product-title">City</div>
                         <div class="product-subtitle">
-                        {{ App\Models\Regency::findOrFail($transaction->transaction->user->fk_regencies_id)->name ?? null}}
+                        {{-- {{ App\Models\Regency::findOrFail($transaction->transaction->user->fk_regencies_id)->name ?? null}} --}}
 
                         </div>
                       </div>
