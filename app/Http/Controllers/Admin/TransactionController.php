@@ -28,7 +28,7 @@ class TransactionController extends Controller
     {
         $transaction = TransactionDetail::with(['transaction.user', 'product.galleries'])
             ->findOrFail($id);
-        dd($transaction);
+        // dd($transaction);
         return view('pages.admin.transaction-detail', compact('transaction'));
     }
 
