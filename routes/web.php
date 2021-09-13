@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::prefix('Superadmin')
     ->namespace('SuperAdmin')
-    ->group(['middleware' => ['auth']])
+    ->middleware('auth')
     ->group(function () {
         Route::GET('/', 'DashboardController@index')->name('superadmin-dashboard');
         Route::RESOURCE('category', 'CategoryController');
