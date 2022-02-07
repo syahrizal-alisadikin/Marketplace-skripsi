@@ -1,5 +1,5 @@
 # <p align="center">| BACK END DEVELOPER |  👋</p>
-<p align="center"><img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" height="32px" alt="php">  <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white" height="32px" alt="go">  <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" height="32px" alt="javascript">  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" height="32px" alt="python"></p>
+<p align="center"><img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" height="32px" alt="php">    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" height="32px" alt="javascript">  </p>
 # Hi, I'm Syahrizal Ali Sadikin. I live in Bekasi, Jawa Barat, Indonesia. I'm Web Developer or back end developer with PHP (Laravel). You can see my portfolio in this site
 
 
