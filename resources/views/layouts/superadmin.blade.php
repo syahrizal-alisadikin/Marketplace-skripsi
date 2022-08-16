@@ -160,6 +160,7 @@
       //   });
       // });
       $("#menu-toggle").click(function (e) {
+      console.log("di klik");
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
       });
