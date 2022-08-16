@@ -155,17 +155,12 @@
     </script>
     <!-- Menu Toggle Script -->
     <script>
-      // $(document).ready(function(){
-      //   $('a').on('click',function(){
-      //     $('li.active').removeClass("active");
-      //     $(this).addClass("active");
-      //   });
-      // });
+    
       $("#menu-toggle").click(function (e) {
-      console.log("di klik");
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
       });
+    
     </script>
     @stack('addon-script')
   </body>
