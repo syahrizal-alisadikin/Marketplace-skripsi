@@ -1,6 +1,143 @@
 @extends('layouts.app')
 @section('title','MarketPlace Detail Page')
-    
+@push('prepend-style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  .checked {
+    color: orange;
+  }
+  .rating {
+  display: inline-block;
+  position: relative;
+  height: 35px;
+  line-height: 35px;
+  font-size: 35px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: #000;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: orange;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px orange;
+}
+
+/* User Rating */
+.user-rating {
+  /* display: inline-block; */
+  position: relative;
+  height: 15px;
+  line-height: 15px;
+  font-size: 15px;
+}
+
+.user-rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+.user-rating label:last-child {
+  position: static;
+}
+.user-rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.user-rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.user-rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.user-rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.user-rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.user-rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.user-rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.user-rating label:last-child .icon {
+  color: orange;
+}
+
+.user-rating:not(:hover) label input:checked ~ .icon,
+.user-rating:hover label:hover input ~ .icon {
+  color: orange;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px orange;
+}
+  </style>
+@endpush
 @section('content')
       <!-- Page Content -->
     <div class="page-content page-details">
@@ -121,8 +258,67 @@
                       class="mr-3 rounded-circle"
                     />
                     <div class="media-body">
-                    <h5 class="mt-2 mb-1">{{ $item->user->name }}</h5>
+
+                    <h5 class="mt-2">{{ $item->user->name }}</h5>
+                    <div class="user-rating" style="margin-top: -7px !important">
+                      @if ($item->starts == 1)
+                      <label>
+                        {{-- <input type="radio" name="stars" value="1" /> --}}
+                        <span class="icon">★</span>
+                        <span class="icon-black">★</span>
+                        <span class="icon-black">★</span>
+                        <span class="icon-black">★</span>
+                        <span class="icon-black">★</span>
+
+                      </label>
+                          
+                      @endif
+                      @if ($item->starts == 2)
+                      <label>
+                        {{-- <input type="radio" name="stars" value="2" /> --}}
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon-black">★</span>
+                        <span class="icon-black">★</span>
+                        <span class="icon-black">★</span>
+
+                      </label>
+                      @endif
+                      @if ($item->starts == 3)
+                      <label>
+                        {{-- <input type="radio" name="stars" value="3" /> --}}
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span> 
+                        <span class="icon-black">★</span>
+                        <span class="icon-black">★</span>
+
+                      </label>
+                      @endif
+                      @if ($item->starts == 4)
+                      <label>
+                        {{-- <input type="radio" name="stars" value="4" /> --}}
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon">★</span>
+                        <span class="icon-black">★</span>
+                      </label>
+                      @endif
+                     @if ($item->starts == 5)
+                     <label>
+                      {{-- <input type="radio" name="stars" value="5" /> --}}
+                      <span class="icon">★</span>
+                      <span class="icon">★</span>
+                      <span class="icon">★</span>
+                      <span class="icon">★</span>
+                      <span class="icon">★</span>
+                    </label>
+                     @endif
+                    </div>
+                   <div class="commentar" >
                     {{ $item->comment }}
+                   </div>
                     </div>
                   </li>
 
@@ -131,21 +327,56 @@
                 </ul>
                 @endforeach
                 @auth
-                       <div class="media-body my-4">
-                     <form action="{{ route('commentar') }}" method="POST">
-                       @csrf
-                        <input type="hidden" name="fk_product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="fk_user_id" value="{{ Auth::user()->id }}">
+                      @if (!$data)
+                      <div class="media-body my-4">
                         
-                        <textarea name="comment" placeholder="Masukan Pesan" cols="20" rows="5" class="form-control"></textarea>
-                        <button type="submit" class="btn btn-success mt-2"> Send</button>
-                     </form>
-                    </div>
+                        <form action="{{ route('commentar') }}" method="POST">
+                          @csrf
+                           <input type="hidden" name="fk_product_id" value="{{ $product->id }}">
+                           <input type="hidden" name="fk_user_id" value="{{ Auth::user()->id }}">
+                           
+                           <div class="rating">
+                             <label>
+                               <input type="radio" name="stars" value="1" />
+                               <span class="icon">★</span>
+                             </label>
+                             <label>
+                               <input type="radio" name="stars" value="2" />
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                             </label>
+                             <label>
+                               <input type="radio" name="stars" value="3" />
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>   
+                             </label>
+                             <label>
+                               <input type="radio" name="stars" value="4" />
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                             </label>
+                             <label>
+                               <input type="radio" name="stars" value="5" />
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                               <span class="icon">★</span>
+                             </label>
+                           </div>
+                           <textarea name="comment" placeholder="Masukan Pesan" cols="20" rows="5" class="form-control"></textarea>
+                           <button type="submit" class="btn btn-success mt-2"> Send</button>
+                        </form>
+                       </div>
+                      @endif
                    @endauth
                 @else
                 <ul class="list-unstyled">
                   <li class="media">
-                   Belum Ada Comentar
+                   Belum Ada Komentar
                     
                   </li>
 
@@ -155,7 +386,38 @@
                        @csrf
                         <input type="hidden" name="fk_product_id" value="{{ $product->id }}">
                         <input type="hidden" name="fk_user_id" value="{{ Auth::user()->id }}">
-                        
+                      <div class="rating">
+                        <label>
+                          <input type="radio" name="stars" value="1" />
+                          <span class="icon">★</span>
+                        </label>
+                        <label>
+                          <input type="radio" name="stars" value="2" />
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                        </label>
+                        <label>
+                          <input type="radio" name="stars" value="3" />
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>   
+                        </label>
+                        <label>
+                          <input type="radio" name="stars" value="4" />
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                        </label>
+                        <label>
+                          <input type="radio" name="stars" value="5" />
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                          <span class="icon">★</span>
+                        </label>
+                      </div>
                         <textarea name="comment" placeholder="Masukan Pesan" cols="20" rows="5" class="form-control"></textarea>
                         <button type="submit" class="btn btn-success mt-2"> Send</button>
                      </form>

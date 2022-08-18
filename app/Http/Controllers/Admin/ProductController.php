@@ -32,15 +32,19 @@ class ProductController extends Controller
     public function comment(Request $request)
     {
 
-        // dd($request->all());
+        $comment = Comment::where('fk_product_id', $request->fk_product_id)->where('fk_user_id', request()->fk_user_id)->first();
+        if ($comment) {
+            return back()->with('error', 'You have already commented this product');
+        }
         Comment::create([
             'fk_user_id' => request()->fk_user_id,
             'fk_product_id' => request()->fk_product_id,
             'comment' => request()->comment,
+            'starts' => request()->starts,
         ]);
 
         $product = Product::with(['galleries', 'user'])->findOrFail(request()->fk_product_id);
-        return redirect()->route('product-detail-user',$product->slug)->with('success','Komentar Success !!');
+        return redirect()->route('product-detail-user', $product->slug)->with('success', 'Komentar Success !!');
     }
 
 

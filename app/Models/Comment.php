@@ -10,11 +10,11 @@ class Comment extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["fk_user_id","fk_product_id","comment"];
+    protected $fillable = ["fk_user_id", "fk_product_id", "comment", 'starts'];
 
 
-    public function user ()
+    public function user()
     {
-        return $this->belongsTo(User::class,'fk_user_id','id');
+        return $this->belongsTo(User::class, 'fk_user_id', 'id');
     }
 }
