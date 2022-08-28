@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\City;
@@ -44,6 +45,28 @@ class LocationController extends Controller
             'success' => true,
             'message' => 'List Data Cost All Courir: ' . $request->courier,
             'data'    => $cost
+        ]);
+    }
+
+    public function cartIncrement(Request $request)
+    {
+        $cart = Cart::find($request->cart_id);
+        $cart->increment('quantity');
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart Increment',
+            'data'    => $cart
+        ]);
+    }
+
+    public function cartDecrement(Request $request)
+    {
+        $cart = Cart::find($request->cart_id);
+        $cart->decrement('quantity');
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart Decrement',
+            'data'    => $cart,
         ]);
     }
 }

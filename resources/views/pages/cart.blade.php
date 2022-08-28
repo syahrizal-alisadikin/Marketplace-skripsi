@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('title','MarketPlace Pages Cart')
+@push('prepend-style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
     
 @section('content')
    <!-- Page Content -->
-    <div class="page-content page-cart">
+    <div class="page-content page-cart" id="locations" >
       <section
         class="store-breadcrumbs"
         data-aos="fade-down"
@@ -34,6 +37,7 @@
               >
                 <thead>
                   <tr>
+                    <th scope="col"></th>
                     <th scope="col">Image</th>
                     <th scope="col">Name &amp; Seller</th>
                     <th scope="col">Price</th>
@@ -45,6 +49,9 @@
                   @php $totalprice = 0 @endphp
                   @forelse ($carts as $cart)
                      <tr>
+                    {{-- <td style="width: 5%;">
+                      <input type="checkbox" name="id[]" value="{{ $cart->id }}">
+                    </td> --}}
                     <td style="width: 25%;">
                      @if ($cart->product->galleries)
                       <img
@@ -63,7 +70,13 @@
                       <div class="product-subtitle">USD</div>
                     </td>
                     <td style="width: 35%;">
-                      <div class="product-title">{{$cart->quantity}}</div>
+                      <div class="product-title d-flex">
+                        <button type="button" @click="GetMin({{ $cart->id }})"  class="btn btn-sm btn-danger"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                       <div class="mx-2">
+                        {{$cart->quantity}}
+                       </div>
+                        <button type="button" @click="GetPlush({{ $cart->id }})"  class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                      </div>
                       <div class="product-subtitle">Quantity</div>
                     </td>
                     <td style="width: 20%;">
@@ -95,7 +108,7 @@
               <h2 class="mb-4">Shipping Details</h2>
             </div>
           </div>
-        <form action="{{route('checkout')}}" method="POST" id="locations" enctype="multipart/form-data">
+        <form action="{{route('checkout')}}" method="POST" enctype="multipart/form-data">
           @csrf
             <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
               <input type="hidden" id="totalPrice" name="total_price" value="{{$totalprice}}">
@@ -263,11 +276,18 @@
               </div>
             </div>
             <div class="row" data-aos="fade-up" data-aos-delay="200" >
-              <div class="col-4 col-md-2">
+              {{-- <div class="col-1 col-md-1">
+                <div class="product-title"><input class="form-check-input" onclick="CheckBox(this)" type="checkbox" value="" id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    All 
+                  </label>
+                </div>
+              </div> --}}
+              <div class="col-3 col-md-3">
                 <div class="product-title">$0</div>
                 <div class="product-subtitle">Country Tax</div>
               </div>
-              <div class="col-4 col-md-3">
+              <div class="col-3 col-md-2">
                 <div class="product-title">$0</div>
                 <div class="product-subtitle">Product Insurance</div>
               </div>
@@ -302,7 +322,26 @@
      $(document).ready(function() {
         // console.log('berhasil');
           $('.fk_provinces_id').select2();
+
+         
       });
+       // function CheckBox
+       function CheckBox(ele) {
+        var checkboxes = document.getElementsByTagName('input');
+            if (ele.checked) {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].type == 'checkbox' ) {
+                        checkboxes[i].checked = true;
+                    }
+                }
+            } else {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].type == 'checkbox') {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+          }
       </script>
     <script>
      
@@ -401,6 +440,27 @@
                     self.regencies = response.data;
                      
               });
+            },
+
+            GetPlush(id)
+            {
+              axios.post("{{ route('api-cart-increment') }}", {
+                cart_id: id,
+              })
+              .then((response) => {
+                
+                window.location.reload();
+              })
+            },
+            GetMin(id)
+            {
+              axios.post("{{ route('api-cart-decrement') }}", {
+                cart_id: id,
+              })
+              .then((response) => {
+                
+                window.location.reload();
+              })
             }
         },
         watch: {
